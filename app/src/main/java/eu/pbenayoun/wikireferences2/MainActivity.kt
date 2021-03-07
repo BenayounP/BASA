@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import dagger.hilt.android.AndroidEntryPoint
+import eu.pbenayoun.repository.referencesrepository.ReferencesCallback
 import eu.pbenayoun.repository.referencesrepository.ReferencesRepository
 import javax.inject.Inject
 
@@ -20,10 +21,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        referencesRepository.getReferences("",referencesCallBack = this::onRepositoryCallback)
+        referencesRepository.getReferences("",referencesCallBackHandler = this::onRepositoryCallback)
     }
 
-    private fun onRepositoryCallback(references:Int){
-        Log.d("TMP_DEBUG", "onRepositoryCallback: ${references}")
+    private fun onRepositoryCallback(callback: ReferencesCallback){
+        when(callback){
+            is ReferencesCallback.Working -> Log.d("TMP_DEBUG", "Repository working")
+            is ReferencesCallback.Success -> Log.d("TMP_DEBUG", "Repository success: ${callback.references}")
+            is ReferencesCallback.Error -> Log.d("TMP_DEBUG", "Repository error: ${callback.errorType}")
+        }
     }
 }
