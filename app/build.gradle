@@ -39,7 +39,9 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "androidx.core:core-ktx:$ktx_version"
+
     implementation "com.google.dagger:hilt-android:$hilt_version"
+
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
     implementation "androidx.appcompat:appcompat:$appcompat_version"
     implementation "com.google.android.material:material:$material_version"
@@ -47,7 +49,7 @@ dependencies {
 
     testImplementation "junit:junit:4.+"
     androidTestImplementation "androidx.test.ext:junit:$androidx_junit_version"
-    androidTestImplementation "androidx.test.espresso:$androidx_espresso_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_espresso_version"
 
     implementation project(":repository")
 }

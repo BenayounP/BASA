@@ -7,12 +7,12 @@ class MockedReferencesRepository @Inject constructor(): ReferencesRepository {
     override fun getReferences(query : String, referencesCallBackHandler: (callback:ReferencesCallback) -> Unit) {
         GlobalScope.launch(Dispatchers.Default) {
             launch(Dispatchers.Main) {
-                referencesCallBackHandler(ReferencesCallback.Working())
+                referencesCallBackHandler(ReferencesCallback.fetching(query))
             }
             delay(1000L)
             val references = (1..1000).shuffled().first()
             launch(Dispatchers.Main) {
-                referencesCallBackHandler(ReferencesCallback.Success(references))
+                referencesCallBackHandler(ReferencesCallback.Success(query, references))
             }
         }
     }

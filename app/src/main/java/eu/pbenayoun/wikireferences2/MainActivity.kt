@@ -3,6 +3,7 @@ package eu.pbenayoun.wikireferences2
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.lifecycle.ViewModelProvider
 import dagger.hilt.android.AndroidEntryPoint
 import eu.pbenayoun.repository.referencesrepository.ReferencesCallback
 import eu.pbenayoun.repository.referencesrepository.ReferencesRepository
@@ -10,25 +11,19 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+    lateinit var referencesRepositoryViewModel: ReferencesRepositoryViewModel
 
-    @Inject
-    lateinit var referencesRepository: ReferencesRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        referencesRepositoryViewModel = ViewModelProvider(this).get(ReferencesRepositoryViewModel::class.java)
     }
 
     override fun onResume() {
         super.onResume()
-        referencesRepository.getReferences("",referencesCallBackHandler = this::onRepositoryCallback)
+        referencesRepositoryViewModel.getReferences("test")
     }
 
-    private fun onRepositoryCallback(callback: ReferencesCallback){
-        when(callback){
-            is ReferencesCallback.Working -> Log.d("TMP_DEBUG", "Repository working")
-            is ReferencesCallback.Success -> Log.d("TMP_DEBUG", "Repository success: ${callback.references}")
-            is ReferencesCallback.Error -> Log.d("TMP_DEBUG", "Repository error: ${callback.errorType}")
-        }
-    }
+
 }
