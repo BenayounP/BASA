@@ -4,15 +4,16 @@ import kotlinx.coroutines.*
 import javax.inject.Inject
 
 class MockedReferencesRepository @Inject constructor(): ReferencesRepository {
+    val requestDelay = 500L
     override fun getReferences(query : String, referencesCallBackHandler: (callback:ReferencesCallback) -> Unit) {
         GlobalScope.launch(Dispatchers.Default) {
             launch(Dispatchers.Main) {
                 referencesCallBackHandler(ReferencesCallback.fetching(query))
             }
-            delay(1000L)
+            delay(requestDelay)
             val references = (1..1000).shuffled().first()
             launch(Dispatchers.Main) {
-                referencesCallBackHandler(ReferencesCallback.Success(query, references))
+                referencesCallBackHandler(ReferencesCallback.Success(ReferencesSuccessModel(query, references)))
             }
         }
     }

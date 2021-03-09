@@ -8,7 +8,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import eu.pbenayoun.repository.referencesrepository.ReferencesCallback
 import eu.pbenayoun.repository.referencesrepository.ReferencesErrorType
 import eu.pbenayoun.repository.referencesrepository.ReferencesRepository
+import eu.pbenayoun.repository.referencesrepository.ReferencesSuccessModel
 import javax.inject.Inject
+
 
 @HiltViewModel
 class ReferencesRepositoryViewModel @Inject constructor
@@ -16,12 +18,13 @@ class ReferencesRepositoryViewModel @Inject constructor
 
     private var currentQuery  = ""
 
-    private val _fetchingState = MutableLiveData<FetchingState>()
+    private val _fetchingState = MutableLiveData<FetchingState>().apply { value=FetchingState.Idle() }
     val fetchingState: LiveData<FetchingState> = _fetchingState
 
-    init{
-        _fetchingState.value = FetchingState.Idle()
-    }
+    private val _lastSuccessReferencesModel = MutableLiveData<ReferencesSuccessModel>().apply { value =
+        ReferencesSuccessModel() }
+    val lastReferencesSuccessReferencesModel : LiveData<ReferencesSuccessModel> = _lastSuccessReferencesModel
+
 
     fun setCurrentQuery(newQuery : String){
         currentQuery = newQuery
@@ -35,7 +38,7 @@ class ReferencesRepositoryViewModel @Inject constructor
     private fun onRepositoryCallback(callback: ReferencesCallback){
         when(callback){
             is ReferencesCallback.fetching -> onReferencesFetching(callback.query)
-            is ReferencesCallback.Success -> onReferencesSuccess(callback.query, callback.references)
+            is ReferencesCallback.Success -> onReferencesSuccess(callback.referencesSuccessModel)
             is ReferencesCallback.Error -> onReferencesError(callback.query,callback.errorType)
         }
     }
@@ -45,9 +48,10 @@ class ReferencesRepositoryViewModel @Inject constructor
         _fetchingState.value = FetchingState.Fetching()
     }
 
-    private fun onReferencesSuccess(query:String,references : Int){
+    private fun onReferencesSuccess(referencesSuccessModel: ReferencesSuccessModel){
         _fetchingState.value = FetchingState.Idle()
-        Log.d("TMP_DEBUG", "Repository success for ${query}: ${references}")
+        _lastSuccessReferencesModel.value = referencesSuccessModel
+        Log.d("TMP_DEBUG", "Repository success for ${referencesSuccessModel.query}: ${referencesSuccessModel.references}")
     }
 
     private fun onReferencesError(query : String, errorType: ReferencesErrorType){

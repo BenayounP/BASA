@@ -51,6 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/searchLayout"
+            android:visibility="gone"
             android:text="@string/last_search_title" />
 
         <TextView
