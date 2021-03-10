@@ -33,12 +33,19 @@ class MainActivity : AppCompatActivity() {
         // observers
         referencesRepositoryViewModel.fetchingState.observe(this, { fetchingState ->
             when (fetchingState) {
-                is FetchingState.Fetching -> binding.progressCircular.visibility = View.VISIBLE
-                else -> binding.progressCircular.visibility = View.GONE
+                is FetchingState.Fetching -> {
+                    binding.btnSearch.visibility= View.GONE
+                    binding.progressCircular.visibility = View.VISIBLE
+                }
+                else -> {
+                    binding.progressCircular.visibility = View.GONE
+                    binding.btnSearch.visibility = View.VISIBLE
+                }
             }
             if (fetchingState is FetchingState.Error){
-                val snackbarString = getString(R.string.research_error)
-                Snackbar.make(binding.root,snackbarString, Snackbar.LENGTH_LONG).show()
+                val snackbarString = getString(R.string.research_error,fetchingState.referencesErrorType.query)
+                snackIt(snackbarString)
+                referencesRepositoryViewModel.onErrorProcessed()
             }
         })
 
@@ -63,7 +70,10 @@ class MainActivity : AppCompatActivity() {
             // hide Keyboard
             (editTextView.context.getSystemService(Context.INPUT_METHOD_SERVICE)
                     as InputMethodManager).hideSoftInputFromWindow(editTextView.windowToken, 0)
-            referencesRepositoryViewModel.getReferences()
+            when {
+                referencesRepositoryViewModel.getCurrentQuery().isEmpty() -> snackIt(getString(R.string.empty_query_error))
+                else -> referencesRepositoryViewModel.getReferences()
+            }
         }
     }
 
@@ -74,6 +84,11 @@ class MainActivity : AppCompatActivity() {
             0 -> resources.getString(R.string.last_search_no_result)
             else -> resources.getQuantityString(R.plurals.last_search_result,referencesSuccessModel.references, referencesSuccessModel.query, referencesSuccessModel.references)
         }
+    }
+
+    private fun snackIt(snackText: String){
+        Snackbar.make(binding.root,snackText, Snackbar.LENGTH_LONG).show()
+
     }
 
 

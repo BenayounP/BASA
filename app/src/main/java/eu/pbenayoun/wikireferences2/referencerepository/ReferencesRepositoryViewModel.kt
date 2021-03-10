@@ -26,6 +26,9 @@ class ReferencesRepositoryViewModel @Inject constructor
         ReferencesSuccessModel() }
     val lastReferencesSuccessReferencesModel : LiveData<ReferencesSuccessModel> = _lastSuccessReferencesModel
 
+    fun getCurrentQuery() : String {
+        return currentQuery
+    }
 
     fun setCurrentQuery(newQuery : String){
         currentQuery = newQuery
@@ -33,6 +36,10 @@ class ReferencesRepositoryViewModel @Inject constructor
 
     fun getReferences(){
         referencesRepository.getReferences(currentQuery,referencesCallBackHandler = this::onRepositoryCallback)
+    }
+
+    fun onErrorProcessed(){
+        _fetchingState.value=FetchingState.Idle()
     }
 
     // Internal Cooking

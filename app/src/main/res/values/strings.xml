@@ -9,5 +9,5 @@
         <item quantity="other">%1$s: %2$d references</item>
     </plurals>
     <string name ="empty_query_error">Please enter your research!</string>
-    <string name ="research_error">There was an error during research. Please try again later</string>
+    <string name ="research_error">There was an error during search of \"%1$s\".\nPlease try again later</string>
 </resources>
