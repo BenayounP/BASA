@@ -34,7 +34,7 @@ class MockedReferencesRepository @Inject constructor(): ReferencesRepository {
                     query : String,
                     referencesCallBackHandler: (callback:ReferencesCallback) -> Unit) : Job{
         return  coroutineScope.launch(Dispatchers.Main) {
-            referencesCallBackHandler(ReferencesCallback.Error(query,ReferencesErrorType.NoNetwork()))
+            referencesCallBackHandler(ReferencesCallback.Error(ReferencesErrorType.NoNetwork(query)))
         }
     }
 

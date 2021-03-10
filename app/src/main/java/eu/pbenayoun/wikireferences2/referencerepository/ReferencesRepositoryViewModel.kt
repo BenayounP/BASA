@@ -21,6 +21,7 @@ class ReferencesRepositoryViewModel @Inject constructor
     private val _fetchingState = MutableLiveData<FetchingState>().apply { value=FetchingState.Idle() }
     val fetchingState: LiveData<FetchingState> = _fetchingState
 
+
     private val _lastSuccessReferencesModel = MutableLiveData<ReferencesSuccessModel>().apply { value =
         ReferencesSuccessModel() }
     val lastReferencesSuccessReferencesModel : LiveData<ReferencesSuccessModel> = _lastSuccessReferencesModel
@@ -39,7 +40,7 @@ class ReferencesRepositoryViewModel @Inject constructor
         when(callback){
             is ReferencesCallback.fetching -> onReferencesFetching(callback.query)
             is ReferencesCallback.Success -> onReferencesSuccess(callback.referencesSuccessModel)
-            is ReferencesCallback.Error -> onReferencesError(callback.query,callback.errorType)
+            is ReferencesCallback.Error -> onReferencesError(callback.errorType)
         }
     }
 
@@ -54,9 +55,9 @@ class ReferencesRepositoryViewModel @Inject constructor
         Log.d("TMP_DEBUG", "Repository success for ${referencesSuccessModel.query}: ${referencesSuccessModel.references}")
     }
 
-    private fun onReferencesError(query : String, errorType: ReferencesErrorType){
-        _fetchingState.value = FetchingState.Idle()
-        Log.d("TMP_DEBUG", "Repository error for ${query}: ${errorType}")
+    private fun onReferencesError(errorType: ReferencesErrorType){
+        _fetchingState.value = FetchingState.Error(errorType)
+        Log.d("TMP_DEBUG", "Repository error for ${errorType.query}: ${errorType}")
     }
 
 }

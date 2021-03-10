@@ -8,6 +8,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import eu.pbenayoun.repository.referencesrepository.ReferencesSuccessModel
 import eu.pbenayoun.wikireferences2.databinding.ActivityMainBinding
@@ -33,7 +34,11 @@ class MainActivity : AppCompatActivity() {
         referencesRepositoryViewModel.fetchingState.observe(this, { fetchingState ->
             when (fetchingState) {
                 is FetchingState.Fetching -> binding.progressCircular.visibility = View.VISIBLE
-                is FetchingState.Idle -> binding.progressCircular.visibility = View.GONE
+                else -> binding.progressCircular.visibility = View.GONE
+            }
+            if (fetchingState is FetchingState.Error){
+                val snackbarString = getString(R.string.research_error)
+                Snackbar.make(binding.root,snackbarString, Snackbar.LENGTH_LONG).show()
             }
         })
 
