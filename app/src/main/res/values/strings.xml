@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">wikiReferences2</string>
+    <string name="hint_search_string">Enter Search Text</string>
+    <string name="button_search">Check Search Count</string>
+    <string name="last_search_title">Last Search</string>
+    <string name ="last_search_no_result">No result</string>
+    <plurals name="last_search_result">
+        <item quantity="one">%1$s: %2$d reference</item>
+        <item quantity="other">%1$s: %2$d references</item>
+    </plurals>
+    <string name ="empty_query_error">Please enter your research!</string>
+    <string name ="research_error">There was an error during search of \"%1$s\".\nPlease try again later</string>
 </resources>
