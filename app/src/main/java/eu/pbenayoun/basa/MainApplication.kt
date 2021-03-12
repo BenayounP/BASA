@@ -1,4 +1,4 @@
-package eu.pbenayoun.wikireferences2
+package eu.pbenayoun.basa
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
