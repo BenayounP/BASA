@@ -1,7 +1,6 @@
-package eu.pbenayoun.wikireferences2
+package eu.pbenayoun.basa
 
 import android.content.Context
-import android.content.res.Resources
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -11,9 +10,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import eu.pbenayoun.repository.referencesrepository.ReferencesSuccessModel
-import eu.pbenayoun.wikireferences2.databinding.ActivityMainBinding
-import eu.pbenayoun.wikireferences2.referencerepository.FetchingState
-import eu.pbenayoun.wikireferences2.referencerepository.ReferencesRepositoryViewModel
+import eu.pbenayoun.basa.databinding.ActivityMainBinding
+import eu.pbenayoun.basa.referencerepository.FetchingState
+import eu.pbenayoun.basa.referencerepository.ReferencesRepositoryViewModel
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {

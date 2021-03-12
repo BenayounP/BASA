@@ -1,4 +1,4 @@
-package eu.pbenayoun.wikireferences2.referencerepository
+package eu.pbenayoun.basa.referencerepository
 
 import eu.pbenayoun.repository.referencesrepository.ReferencesErrorType
 

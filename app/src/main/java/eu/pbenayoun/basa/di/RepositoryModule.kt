@@ -1,9 +1,8 @@
-package eu.pbenayoun.wikireferences2.di
+package eu.pbenayoun.basa.di
 
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.components.ViewModelComponent
 import eu.pbenayoun.repository.referencesrepository.MockedReferencesRepository
 import eu.pbenayoun.repository.referencesrepository.ReferencesRepository
