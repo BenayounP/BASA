@@ -12,10 +12,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="20dp"
-        >
+        android:padding="@dimen/global_margin">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -24,7 +23,7 @@
             android:textAlignment="center"
             android:gravity="center_horizontal" />
 
-        <LinearLayout
+        <FrameLayout
             android:id="@+id/searchLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -38,26 +37,28 @@
                 android:indeterminate="true" />
 
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/button_search" />
 
-        </LinearLayout>
+        </FrameLayout>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_last_search_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/searchLayout"
-            android:visibility="gone"
+            android:visibility="visible"
+            style="@style/BasaTextView"
             android:text="@string/last_search_title" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/txt_last_search_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            style="@style/BasaTextView"
             app:layout_constraintTop_toBottomOf="@id/txt_last_search_title" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
