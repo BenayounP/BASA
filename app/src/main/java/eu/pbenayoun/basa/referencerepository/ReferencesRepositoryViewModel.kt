@@ -4,11 +4,13 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import eu.pbenayoun.repository.referencesrepository.ReferencesCallback
+import eu.pbenayoun.repository.referencesrepository.References
 import eu.pbenayoun.repository.referencesrepository.ReferencesErrorType
 import eu.pbenayoun.repository.referencesrepository.ReferencesRepository
 import eu.pbenayoun.repository.referencesrepository.ReferencesSuccessModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -35,7 +37,14 @@ class ReferencesRepositoryViewModel @Inject constructor
     }
 
     fun getReferences(){
-        referencesRepository.getReferences(currentQuery,referencesCallBackHandler = this::onRepositoryCallback)
+        _fetchingState.value = FetchingState.Fetching()
+        viewModelScope.launch {
+            val references= referencesRepository.getReferences(currentQuery)
+            handleResponse(references)
+            _fetchingState.value=FetchingState.Idle()
+        }
+
+
     }
 
     fun onErrorProcessed(){
@@ -43,17 +52,11 @@ class ReferencesRepositoryViewModel @Inject constructor
     }
 
     // Internal Cooking
-    private fun onRepositoryCallback(callback: ReferencesCallback){
-        when(callback){
-            is ReferencesCallback.fetching -> onReferencesFetching(callback.query)
-            is ReferencesCallback.Success -> onReferencesSuccess(callback.referencesSuccessModel)
-            is ReferencesCallback.Error -> onReferencesError(callback.errorType)
+    private fun handleResponse(references: References){
+        when(references){
+            is References.Success -> onReferencesSuccess(references.referencesSuccessModel)
+            is References.Error -> onReferencesError(references.errorType)
         }
-    }
-
-    private fun onReferencesFetching(query:String){
-        Log.d("TMP_DEBUG", "Repository fetching ${query}")
-        _fetchingState.value = FetchingState.Fetching()
     }
 
     private fun onReferencesSuccess(referencesSuccessModel: ReferencesSuccessModel){

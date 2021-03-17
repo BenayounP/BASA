@@ -43,6 +43,7 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "androidx.core:core-ktx:$ktx_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewmodel_ktx_version"
 
     implementation "com.google.dagger:hilt-android:$hilt_version"
 
@@ -50,6 +51,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$appcompat_version"
     implementation "com.google.android.material:material:$material_version"
     implementation "androidx.constraintlayout:constraintlayout:$constraintlayout_version"
+
 
     testImplementation "junit:junit:4.+"
     androidTestImplementation "androidx.test.ext:junit:$androidx_junit_version"

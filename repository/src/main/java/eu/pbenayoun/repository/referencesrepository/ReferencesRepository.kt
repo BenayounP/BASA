@@ -1,12 +1,9 @@
 package eu.pbenayoun.repository.referencesrepository
 
 
-
-
-sealed class ReferencesCallback(query : String){
-    class fetching(val query : String) : ReferencesCallback(query)
-    class Success(val referencesSuccessModel: ReferencesSuccessModel) : ReferencesCallback(referencesSuccessModel.query)
-    class Error(val errorType: ReferencesErrorType) : ReferencesCallback(errorType.query)
+sealed class References(query : String){
+    class Success(val referencesSuccessModel: ReferencesSuccessModel) : References(referencesSuccessModel.query)
+    class Error(val errorType: ReferencesErrorType) : References(errorType.query)
 }
 
 data class ReferencesSuccessModel(val query: String="", val references: Int=0)
@@ -16,5 +13,5 @@ sealed class ReferencesErrorType(val query: String=""){
 }
 
 interface ReferencesRepository {
-    fun getReferences(query : String, referencesCallBackHandler: (callback:ReferencesCallback) -> Unit)
+    suspend  fun getReferences(query : String) : References
 }

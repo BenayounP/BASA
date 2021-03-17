@@ -1,6 +1,5 @@
 package eu.pbenayoun.repository.referencesrepository
 
-import android.util.Log
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
@@ -8,35 +7,25 @@ class MockedReferencesRepository @Inject constructor(): ReferencesRepository {
     val requestDelay = 500L
     var launchError = false
 
-    override fun getReferences(query : String, referencesCallBackHandler: (callback:ReferencesCallback) -> Unit) {
-        GlobalScope.launch(Dispatchers.Default) {
-            launch(Dispatchers.Main) {
-                referencesCallBackHandler(ReferencesCallback.fetching(query))
-            }
+    override suspend fun getReferences(query : String) : References {
             delay(requestDelay)
-            when (launchError){
-                true -> launchError(this,query,referencesCallBackHandler)
-                false -> launchSuccess(this,query,referencesCallBackHandler)
+            val references = when (launchError) {
+                true -> getErrorReference(query)
+                false -> getSuccessReferences(query)
             }
             launchError=!launchError
+            return references
         }
-    }
 
-    fun launchSuccess(coroutineScope: CoroutineScope,
-                    query : String,
-                    referencesCallBackHandler: (callback:ReferencesCallback) -> Unit) : Job{
+    // INTERNAL COOKING
+
+    private fun getSuccessReferences(query: String) : References{
         val references = (1..1000).shuffled().first()
-        return coroutineScope.launch(Dispatchers.Main) {
-            referencesCallBackHandler(ReferencesCallback.Success(ReferencesSuccessModel(query, references)))
-        }
+        return References.Success(ReferencesSuccessModel(query, references))
     }
 
-    fun launchError(coroutineScope: CoroutineScope,
-                    query : String,
-                    referencesCallBackHandler: (callback:ReferencesCallback) -> Unit) : Job{
-        return  coroutineScope.launch(Dispatchers.Main) {
-            referencesCallBackHandler(ReferencesCallback.Error(ReferencesErrorType.NoNetwork(query)))
-        }
+    private fun getErrorReference(query: String) : References{
+        return References.Error(ReferencesErrorType.NoNetwork(query))
     }
 
 }
