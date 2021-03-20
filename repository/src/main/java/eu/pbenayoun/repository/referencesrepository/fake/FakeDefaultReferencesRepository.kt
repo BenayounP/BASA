@@ -3,11 +3,11 @@ package eu.pbenayoun.repository.referencesrepository
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
-class MockedReferencesRepository @Inject constructor(): ReferencesRepository {
+class FakeDefaultReferencesRepository @Inject constructor(): ReferencesRepository {
     val requestDelay = 500L
     var launchError = false
 
-    override suspend fun getReferences(query : String) : References {
+    override suspend fun getReferences(query : String) : ReferencesResponse {
             delay(requestDelay)
             val references = when (launchError) {
                 true -> getErrorReference(query)
@@ -19,13 +19,12 @@ class MockedReferencesRepository @Inject constructor(): ReferencesRepository {
 
     // INTERNAL COOKING
 
-    private fun getSuccessReferences(query: String) : References{
+    private fun getSuccessReferences(query: String) : ReferencesResponse{
         val references = (1..1000).shuffled().first()
-        return References.Success(ReferencesSuccessModel(query, references))
+        return ReferencesResponse.Success(ReferencesSuccessModel(query, references))
     }
 
-    private fun getErrorReference(query: String) : References{
-        return References.Error(ReferencesErrorType.NoNetwork(query))
+    private fun getErrorReference(query: String) : ReferencesResponse{
+        return ReferencesResponse.Error(ReferencesErrorType.NoNetwork(query))
     }
-
 }

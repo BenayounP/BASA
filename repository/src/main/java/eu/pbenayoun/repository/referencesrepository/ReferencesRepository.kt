@@ -1,9 +1,9 @@
 package eu.pbenayoun.repository.referencesrepository
 
 
-sealed class References(query : String){
-    class Success(val referencesSuccessModel: ReferencesSuccessModel) : References(referencesSuccessModel.query)
-    class Error(val errorType: ReferencesErrorType) : References(errorType.query)
+sealed class ReferencesResponse(query : String){
+    class Success(val referencesSuccessModel: ReferencesSuccessModel) : ReferencesResponse(referencesSuccessModel.query)
+    class Error(val errorType: ReferencesErrorType) : ReferencesResponse(errorType.query)
 }
 
 data class ReferencesSuccessModel(val query: String="", val references: Int=0)
@@ -13,5 +13,5 @@ sealed class ReferencesErrorType(val query: String=""){
 }
 
 interface ReferencesRepository {
-    suspend  fun getReferences(query : String) : References
+    suspend  fun getReferences(query : String) : ReferencesResponse
 }

@@ -4,7 +4,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
-import eu.pbenayoun.repository.referencesrepository.MockedReferencesRepository
+import eu.pbenayoun.repository.referencesrepository.FakeDefaultReferencesRepository
 import eu.pbenayoun.repository.referencesrepository.ReferencesRepository
 
 @InstallIn(ViewModelComponent::class)
@@ -12,6 +12,6 @@ import eu.pbenayoun.repository.referencesrepository.ReferencesRepository
 abstract
 class RepositoryModule {
     @Binds
-    abstract fun bindReferencesRepository(impl: MockedReferencesRepository): ReferencesRepository
+    abstract fun bindReferencesRepository(impl: FakeDefaultReferencesRepository): ReferencesRepository
 }
 

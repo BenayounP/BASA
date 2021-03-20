@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import eu.pbenayoun.repository.referencesrepository.References
+import eu.pbenayoun.repository.referencesrepository.ReferencesResponse
 import eu.pbenayoun.repository.referencesrepository.ReferencesErrorType
 import eu.pbenayoun.repository.referencesrepository.ReferencesRepository
 import eu.pbenayoun.repository.referencesrepository.ReferencesSuccessModel
@@ -52,10 +52,10 @@ class ReferencesRepositoryViewModel @Inject constructor
     }
 
     // Internal Cooking
-    private fun handleResponse(references: References){
-        when(references){
-            is References.Success -> onReferencesSuccess(references.referencesSuccessModel)
-            is References.Error -> onReferencesError(references.errorType)
+    private fun handleResponse(referencesResponse: ReferencesResponse){
+        when(referencesResponse){
+            is ReferencesResponse.Success -> onReferencesSuccess(referencesResponse.referencesSuccessModel)
+            is ReferencesResponse.Error -> onReferencesError(referencesResponse.errorType)
         }
     }
 
