@@ -25,6 +25,6 @@ class FakeDefaultReferencesRepository @Inject constructor(): ReferencesRepositor
     }
 
     private fun getErrorReference(query: String) : ReferencesResponse{
-        return ReferencesResponse.Error(ReferencesErrorType.NoNetwork(query))
+        return ReferencesResponse.Error(ReferencesErrorModel(query,ReferencesErrorType.NoNetwork()))
     }
 }

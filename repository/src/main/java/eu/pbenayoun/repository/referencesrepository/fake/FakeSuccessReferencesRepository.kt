@@ -10,8 +10,4 @@ class FakeSuccessReferencesRepository @Inject constructor(val requestDelay : Lon
             delay(requestDelay)
             return ReferencesResponse.Success(ReferencesSuccessModel(query, nextReferencesAmount))
         }
-
-    // INTERNAL COOKING
-
-
 }
