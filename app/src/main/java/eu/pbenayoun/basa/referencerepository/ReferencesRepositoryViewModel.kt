@@ -6,10 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import eu.pbenayoun.repository.referencesrepository.ReferencesResponse
-import eu.pbenayoun.repository.referencesrepository.ReferencesErrorType
-import eu.pbenayoun.repository.referencesrepository.ReferencesRepository
-import eu.pbenayoun.repository.referencesrepository.ReferencesSuccessModel
+import eu.pbenayoun.repository.referencesrepository.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -55,7 +52,7 @@ class ReferencesRepositoryViewModel @Inject constructor
     private fun handleResponse(referencesResponse: ReferencesResponse){
         when(referencesResponse){
             is ReferencesResponse.Success -> onReferencesSuccess(referencesResponse.referencesSuccessModel)
-            is ReferencesResponse.Error -> onReferencesError(referencesResponse.errorType)
+            is ReferencesResponse.Error -> onReferencesError(referencesResponse.referencesErrorModel)
         }
     }
 
@@ -65,9 +62,9 @@ class ReferencesRepositoryViewModel @Inject constructor
         Log.d("TMP_DEBUG", "Repository success for ${referencesSuccessModel.query}: ${referencesSuccessModel.references}")
     }
 
-    private fun onReferencesError(errorType: ReferencesErrorType){
-        _fetchingState.value = FetchingState.Error(errorType)
-        Log.d("TMP_DEBUG", "Repository error for ${errorType.query}: ${errorType}")
+    private fun onReferencesError(errorModel: ReferencesErrorModel){
+        _fetchingState.value = FetchingState.Error(errorModel)
+        Log.d("TMP_DEBUG", "Repository error for ${errorModel.query}: ${errorModel}")
     }
 
 }

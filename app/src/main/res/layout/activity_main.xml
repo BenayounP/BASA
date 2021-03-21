@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             android:hint="@string/hint_search_string"
+            android:maxLines="1"
             android:textAlignment="center"
             android:gravity="center_horizontal" />
 

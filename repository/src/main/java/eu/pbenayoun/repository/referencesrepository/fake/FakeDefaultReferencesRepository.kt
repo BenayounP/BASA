@@ -4,8 +4,11 @@ import kotlinx.coroutines.*
 import javax.inject.Inject
 
 class FakeDefaultReferencesRepository @Inject constructor(): ReferencesRepository {
-    val requestDelay = 500L
+    val requestDelay = 1000L
     var launchError = false
+
+    val fakeErrorReferencesRepository = FakeErrorReferencesRepository(requestDelay)
+    val fakeSuccessReferencesRepository = FakeSuccessReferencesRepository(requestDelay)
 
     override suspend fun getReferences(query : String) : ReferencesResponse {
             delay(requestDelay)
@@ -19,12 +22,12 @@ class FakeDefaultReferencesRepository @Inject constructor(): ReferencesRepositor
 
     // INTERNAL COOKING
 
-    private fun getSuccessReferences(query: String) : ReferencesResponse{
-        val references = (1..1000).shuffled().first()
-        return ReferencesResponse.Success(ReferencesSuccessModel(query, references))
+    suspend private fun getSuccessReferences(query: String) : ReferencesResponse{
+        fakeSuccessReferencesRepository.nextReferencesAmount = (1..1000).shuffled().first()
+        return fakeSuccessReferencesRepository.getReferences(query)
     }
 
-    private fun getErrorReference(query: String) : ReferencesResponse{
-        return ReferencesResponse.Error(ReferencesErrorModel(query,ReferencesErrorType.NoNetwork()))
+    suspend private fun getErrorReference(query: String) : ReferencesResponse{
+        return fakeErrorReferencesRepository.getReferences(query)
     }
 }

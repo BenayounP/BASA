@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             if (fetchingState is FetchingState.Error){
-                val snackbarString = getString(R.string.research_error,fetchingState.referencesErrorType.query)
+                val snackbarString = getString(R.string.research_error,fetchingState.referencesErrorModel.query)
                 snackIt(snackbarString)
                 referencesRepositoryViewModel.onErrorProcessed()
             }
