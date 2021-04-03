@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/coordinatorLayout"
     android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -20,9 +19,11 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             android:hint="@string/hint_search_string"
+            android:inputType="text"
             android:maxLines="1"
             android:textAlignment="center"
-            android:gravity="center_horizontal" />
+            android:gravity="center_horizontal"
+            android:imeOptions="actionDone"/>
 
         <FrameLayout
             android:id="@+id/searchLayout"

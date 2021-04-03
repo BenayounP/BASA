@@ -3,6 +3,10 @@ package eu.pbenayoun.repository
 import kotlinx.coroutines.test.runBlockingTest
 import com.google.common.truth.Truth.assertThat
 import eu.pbenayoun.repository.referencesrepository.*
+import eu.pbenayoun.repository.referencesrepository.domain.WikiReferencesModel
+import eu.pbenayoun.repository.referencesrepository.fake.FakeDefaultReferencesRepository
+import eu.pbenayoun.repository.referencesrepository.fake.FakeErrorReferencesRepository
+import eu.pbenayoun.repository.referencesrepository.fake.FakeSuccessReferencesRepository
 import org.junit.Test
 
 
@@ -24,9 +28,9 @@ class FakeReferencesRepositoriesTest {
         val testedResponse=fakeSuccessReferencesRepository.getReferences(arrangeQuery)
 
         // Assert
-        val expectedResponse = ReferencesResponse.Success(ReferencesSuccessModel(arrangeQuery,arrangeResponseAmount))
+        val expectedResponse = ReferencesResponse.Success(WikiReferencesModel(arrangeQuery,arrangeResponseAmount))
         assertThat(testedResponse is ReferencesResponse.Success).isTrue()
-        assertThat((testedResponse as ReferencesResponse.Success).referencesSuccessModel).isEqualTo(expectedResponse.referencesSuccessModel)
+        assertThat((testedResponse as ReferencesResponse.Success).wikiReferencesSuccessSuccessModel).isEqualTo(expectedResponse.wikiReferencesSuccessSuccessModel)
     }
 
     @Test
@@ -34,7 +38,7 @@ class FakeReferencesRepositoriesTest {
         // Arrange
         val arrangeDelay = 1L
         val arrangeQuery="Liverpool"
-        val arrangeErrorType = ReferencesErrorType.NoNetwork()
+        val arrangeErrorType = ReferencesErrorType.NoNetwork
 
 
         val fakeErrorReferencesRepository = FakeErrorReferencesRepository(arrangeDelay)
@@ -44,10 +48,10 @@ class FakeReferencesRepositoriesTest {
         val testedResponse=fakeErrorReferencesRepository.getReferences(arrangeQuery)
 
         // Assert
-        val expectedResponseModel = ReferencesErrorModel(arrangeQuery,ReferencesErrorType.NoNetwork())
+        val expectedResponseModel = ReferencesErrorResponseModel(arrangeQuery,ReferencesErrorType.NoNetwork)
         assertThat(testedResponse is ReferencesResponse.Error).isTrue()
 
-        val testedModel = (testedResponse as ReferencesResponse.Error).referencesErrorModel
+        val testedModel = (testedResponse as ReferencesResponse.Error).referencesErrorResponseModel
         assertThat(testedModel.query).isEqualTo(expectedResponseModel.query)
         assertThat(testedModel.referencesErrorType is ReferencesErrorType.NoNetwork).isTrue()
     }
@@ -66,7 +70,7 @@ class FakeReferencesRepositoriesTest {
 
         // Assert
         assertThat(testedSuccessResponse is ReferencesResponse.Success).isTrue()
-        val testedSuccessModel= (testedSuccessResponse as ReferencesResponse.Success).referencesSuccessModel
+        val testedSuccessModel= (testedSuccessResponse as ReferencesResponse.Success).wikiReferencesSuccessSuccessModel
         assertThat(testedSuccessModel.query).isEqualTo(arrangeQuery1)
         assertThat(testedSuccessModel.references).isIn(1..1000)
 
@@ -78,10 +82,10 @@ class FakeReferencesRepositoriesTest {
         val testedErrorResponse=defaultErrorReferencesRepository.getReferences(arrangeQuery2)
 
         // Assert
-        val expectedResponseModel = ReferencesErrorModel(arrangeQuery2,ReferencesErrorType.NoNetwork())
+        val expectedResponseModel = ReferencesErrorResponseModel(arrangeQuery2,ReferencesErrorType.NoNetwork)
         assertThat(testedErrorResponse is ReferencesResponse.Error).isTrue()
 
-        val testedModel = (testedErrorResponse as ReferencesResponse.Error).referencesErrorModel
+        val testedModel = (testedErrorResponse as ReferencesResponse.Error).referencesErrorResponseModel
         assertThat(testedModel.query).isEqualTo(expectedResponseModel.query)
         assertThat(testedModel.referencesErrorType is ReferencesErrorType.NoNetwork).isTrue()
     }

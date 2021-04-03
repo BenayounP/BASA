@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion rootProject.sdk_version
     buildToolsVersion "30.0.3"
 
     buildFeatures {
@@ -17,7 +17,7 @@ android {
     defaultConfig {
         applicationId "eu.pbenayoun.basa"
         minSdkVersion 16
-        targetSdkVersion 29
+        targetSdkVersion rootProject.sdk_version
         versionCode 1
         versionName "1.0"
 

@@ -3,16 +3,18 @@ package eu.pbenayoun.basa
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import eu.pbenayoun.repository.referencesrepository.ReferencesSuccessModel
 import eu.pbenayoun.basa.databinding.ActivityMainBinding
 import eu.pbenayoun.basa.referencerepository.FetchingState
 import eu.pbenayoun.basa.referencerepository.ReferencesRepositoryViewModel
+import eu.pbenayoun.repository.referencesrepository.domain.WikiReferencesModel
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -24,12 +26,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         referencesRepositoryViewModel = ViewModelProvider(this).get(ReferencesRepositoryViewModel::class.java)
+        setObservers()
         setViews()
     }
 
-
-    private fun setViews() {
-        // observers
+    private fun setObservers(){
         referencesRepositoryViewModel.fetchingState.observe(this, { fetchingState ->
             when (fetchingState) {
                 is FetchingState.Fetching -> {
@@ -42,14 +43,14 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             if (fetchingState is FetchingState.Error){
-                val snackbarString = getString(R.string.research_error,fetchingState.referencesErrorModel.query)
+                val snackbarString = getString(R.string.research_error,fetchingState.referencesErrorResponseModel.query)
                 snackIt(snackbarString)
                 referencesRepositoryViewModel.onErrorProcessed()
             }
         })
 
-        referencesRepositoryViewModel.lastReferencesSuccessReferencesModel.observe(this,{ lastSuccessReferencesModel->
-            var lastSearchVisibility= when(lastSuccessReferencesModel.references){
+        referencesRepositoryViewModel.lastReferencesSuccessReferencesSuccessModel.observe(this,{ lastSuccessReferencesModel->
+            val lastSearchVisibility= when(lastSuccessReferencesModel.references){
                 0 -> View.GONE
                 else -> View.VISIBLE
             }
@@ -57,31 +58,47 @@ class MainActivity : AppCompatActivity() {
             binding.txtLastSearchContent.visibility=lastSearchVisibility
             binding.txtLastSearchContent.text=getSearchResultString(lastSuccessReferencesModel)
         })
+    }
 
 
-        // views
-
+    private fun setViews() {
         binding.editSearch.doAfterTextChanged {
             referencesRepositoryViewModel.setCurrentQuery(it.toString())
         }
 
-        binding.btnSearch.setOnClickListener { editTextView ->
-            // hide Keyboard
-            (editTextView.context.getSystemService(Context.INPUT_METHOD_SERVICE)
-                    as InputMethodManager).hideSoftInputFromWindow(editTextView.windowToken, 0)
-            when {
-                referencesRepositoryViewModel.getCurrentQuery().isEmpty() -> snackIt(getString(R.string.empty_query_error))
-                else -> referencesRepositoryViewModel.getReferences()
+        binding.btnSearch.setOnClickListener { view ->
+            launchSearch(view)
+        }
+
+        // to manage hardware button "Enter" via actionDone
+        binding.editSearch.setOnEditorActionListener { view, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                Log.d("TMP_DEBUG", "MainActivity.setViews: IME_ACTION_DONE")
+                launchSearch(view)
+                true
+            } else {
+                Log.d("TMP_DEBUG", "MainActivity.setViews: ${actionId}")
+                false
             }
         }
     }
 
-    private fun getSearchResultString(referencesSuccessModel: ReferencesSuccessModel) : String{
-        return when(referencesSuccessModel.references)
+    private fun launchSearch(view : View){
+        // hide Keyboard
+        (view.context.getSystemService(Context.INPUT_METHOD_SERVICE)
+                as InputMethodManager).hideSoftInputFromWindow(view.windowToken, 0)
+        when {
+            referencesRepositoryViewModel.getCurrentQuery().isEmpty() -> snackIt(getString(R.string.empty_query_error))
+            else -> referencesRepositoryViewModel.getReferences()
+        }
+    }
+
+    private fun getSearchResultString(wikiReferencesSuccessSuccessModel: WikiReferencesModel) : String{
+        return when(wikiReferencesSuccessSuccessModel.references)
         {
             //Trick for 0 reference : resources.getQuantityString do not manage 0 quantity properly
             0 -> resources.getString(R.string.last_search_no_result)
-            else -> resources.getQuantityString(R.plurals.last_search_result,referencesSuccessModel.references, referencesSuccessModel.query, referencesSuccessModel.references)
+            else -> resources.getQuantityString(R.plurals.last_search_result,wikiReferencesSuccessSuccessModel.references, wikiReferencesSuccessSuccessModel.query, wikiReferencesSuccessSuccessModel.references)
         }
     }
 

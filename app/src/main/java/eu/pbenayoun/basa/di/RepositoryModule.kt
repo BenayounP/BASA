@@ -4,7 +4,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
-import eu.pbenayoun.repository.referencesrepository.FakeDefaultReferencesRepository
+import eu.pbenayoun.repository.referencesrepository.fake.FakeDefaultReferencesRepository
 import eu.pbenayoun.repository.referencesrepository.ReferencesRepository
 
 @InstallIn(ViewModelComponent::class)

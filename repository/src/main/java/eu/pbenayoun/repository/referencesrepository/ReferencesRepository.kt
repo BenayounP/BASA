@@ -1,17 +1,17 @@
 package eu.pbenayoun.repository.referencesrepository
 
+import eu.pbenayoun.repository.referencesrepository.domain.WikiReferencesModel
+
 
 sealed class ReferencesResponse(query : String){
-    class Success(val referencesSuccessModel: ReferencesSuccessModel) : ReferencesResponse(referencesSuccessModel.query)
-    class Error(val referencesErrorModel: ReferencesErrorModel) : ReferencesResponse(referencesErrorModel.query)
+    class Success(val wikiReferencesSuccessSuccessModel: WikiReferencesModel) : ReferencesResponse(wikiReferencesSuccessSuccessModel.query)
+    class Error(val referencesErrorResponseModel: ReferencesErrorResponseModel) : ReferencesResponse(referencesErrorResponseModel.query)
 }
 
-data class ReferencesSuccessModel(val query: String="", val references: Int=0)
-
-data class ReferencesErrorModel(val query: String = "", val referencesErrorType: ReferencesErrorType=ReferencesErrorType.NoNetwork())
+data class ReferencesErrorResponseModel(val query: String = "", val referencesErrorType: ReferencesErrorType=ReferencesErrorType.NoNetwork)
 
 sealed class ReferencesErrorType(){
-    class NoNetwork(): ReferencesErrorType()
+    object NoNetwork: ReferencesErrorType()
 }
 
 interface ReferencesRepository {

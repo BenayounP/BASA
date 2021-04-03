@@ -1,5 +1,7 @@
-package eu.pbenayoun.repository.referencesrepository
+package eu.pbenayoun.repository.referencesrepository.fake
 
+import eu.pbenayoun.repository.referencesrepository.ReferencesRepository
+import eu.pbenayoun.repository.referencesrepository.ReferencesResponse
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
@@ -22,12 +24,12 @@ class FakeDefaultReferencesRepository @Inject constructor(): ReferencesRepositor
 
     // INTERNAL COOKING
 
-    suspend private fun getSuccessReferences(query: String) : ReferencesResponse{
+    suspend private fun getSuccessReferences(query: String) : ReferencesResponse {
         fakeSuccessReferencesRepository.nextReferencesAmount = (1..1000).shuffled().first()
         return fakeSuccessReferencesRepository.getReferences(query)
     }
 
-    suspend private fun getErrorReference(query: String) : ReferencesResponse{
+    suspend private fun getErrorReference(query: String) : ReferencesResponse {
         return fakeErrorReferencesRepository.getReferences(query)
     }
 }
