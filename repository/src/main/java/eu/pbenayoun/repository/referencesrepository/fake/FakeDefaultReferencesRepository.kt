@@ -24,12 +24,12 @@ class FakeDefaultReferencesRepository @Inject constructor(): ReferencesRepositor
 
     // INTERNAL COOKING
 
-    suspend private fun getSuccessReferences(query: String) : ReferencesResponse {
+    private suspend fun getSuccessReferences(query: String) : ReferencesResponse {
         fakeSuccessReferencesRepository.nextReferencesAmount = (1..1000).shuffled().first()
         return fakeSuccessReferencesRepository.getReferences(query)
     }
 
-    suspend private fun getErrorReference(query: String) : ReferencesResponse {
+    private suspend fun getErrorReference(query: String) : ReferencesResponse {
         return fakeErrorReferencesRepository.getReferences(query)
     }
 }

@@ -10,7 +10,7 @@ sealed class ReferencesResponse(query : String){
 
 data class ReferencesErrorResponseModel(val query: String = "", val referencesErrorType: ReferencesErrorType=ReferencesErrorType.NoNetwork)
 
-sealed class ReferencesErrorType(){
+sealed class ReferencesErrorType {
     object NoNetwork: ReferencesErrorType()
 }
 
