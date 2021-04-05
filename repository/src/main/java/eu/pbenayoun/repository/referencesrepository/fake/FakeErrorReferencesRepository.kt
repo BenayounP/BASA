@@ -7,7 +7,7 @@ import eu.pbenayoun.repository.referencesrepository.ReferencesResponse
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
-class FakeErrorReferencesRepository @Inject constructor(val requestDelay : Long):
+class FakeErrorReferencesRepository @Inject constructor(private val requestDelay : Long):
     ReferencesRepository {
     var nextErrorType = ReferencesErrorType.NoNetwork
 

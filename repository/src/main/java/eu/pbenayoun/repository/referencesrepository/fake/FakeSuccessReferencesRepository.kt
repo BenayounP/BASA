@@ -6,7 +6,7 @@ import eu.pbenayoun.repository.referencesrepository.domain.WikiReferencesModel
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
-class FakeSuccessReferencesRepository @Inject constructor(val requestDelay : Long):
+class FakeSuccessReferencesRepository @Inject constructor(private val requestDelay : Long):
     ReferencesRepository {
     var nextReferencesAmount : Int = 42
 

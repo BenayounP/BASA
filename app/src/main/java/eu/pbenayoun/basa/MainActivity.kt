@@ -19,7 +19,7 @@ import eu.pbenayoun.repository.referencesrepository.domain.WikiReferencesModel
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    lateinit var referencesRepositoryViewModel: ReferencesRepositoryViewModel
+    private lateinit var referencesRepositoryViewModel: ReferencesRepositoryViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,8 +43,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             if (fetchingState is FetchingState.Error){
-                val snackbarString = getString(R.string.research_error,fetchingState.referencesErrorResponseModel.query)
-                snackIt(snackbarString)
+                val snackBarString = getString(R.string.research_error,fetchingState.referencesErrorResponseModel.query)
+                snackIt(snackBarString)
                 referencesRepositoryViewModel.onErrorProcessed()
             }
         })
@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
                 launchSearch(view)
                 true
             } else {
-                Log.d("TMP_DEBUG", "MainActivity.setViews: ${actionId}")
+                Log.d("TMP_DEBUG", "MainActivity.setViews: $actionId")
                 false
             }
         }

@@ -6,11 +6,11 @@ import kotlinx.coroutines.*
 import javax.inject.Inject
 
 class FakeDefaultReferencesRepository @Inject constructor(): ReferencesRepository {
-    val requestDelay = 1000L
-    var launchError = false
+    private val requestDelay = 1000L
+    private var launchError = false
 
-    val fakeErrorReferencesRepository = FakeErrorReferencesRepository(requestDelay)
-    val fakeSuccessReferencesRepository = FakeSuccessReferencesRepository(requestDelay)
+    private val fakeErrorReferencesRepository = FakeErrorReferencesRepository(requestDelay)
+    private val fakeSuccessReferencesRepository = FakeSuccessReferencesRepository(requestDelay)
 
     override suspend fun getReferences(query : String) : ReferencesResponse {
             delay(requestDelay)
