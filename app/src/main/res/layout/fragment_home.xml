@@ -8,8 +8,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/global_margin"
-    app:layout_constraintBottom_toTopOf="@id/bottom_nav_view"
-    app:layout_constraintTop_toTopOf="parent"
     tools:context="eu.pbenayoun.basa.MainActivity">
 
     <com.google.android.material.textfield.TextInputEditText

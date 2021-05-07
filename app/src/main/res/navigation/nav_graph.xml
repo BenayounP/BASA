@@ -12,6 +12,6 @@
 
     <fragment
         android:id="@+id/settings"
-        android:name="eu.pbenayoun.basa.presentation.HomeFragment"
+        android:name="eu.pbenayoun.basa.presentation.SettingsFragment"
         android:label="@string/app_name"/>
 </navigation>

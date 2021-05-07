@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">BASA</string>
+    <string name="bottom_menu_home">Accueil</string>
+    <string name="bottom_menu_settings">Paramètres</string>
     <string name="hint_search_string">Entrez votre recherche</string>
     <string name="button_search">Rechercher nombre d\'occurences</string>
     <string name="last_search_title">Dernière recherche</string>
