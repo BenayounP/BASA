@@ -3,6 +3,7 @@ buildscript {
 
     // sdk
     ext.sdk_version = 30
+    ext.sdk_min_version = 16
 
     // versions
 
